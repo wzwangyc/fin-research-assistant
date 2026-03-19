@@ -64,6 +64,26 @@ cp .env.example .env
 python demo_full_process.py
 ```
 
+### 5. 增强功能（v2.0+）
+
+```python
+# XY-Cut 阅读顺序 + 边界框 + Markdown 输出
+from backend.app.nlp.enhanced_parser import EnhancedPDFParser
+
+parser = EnhancedPDFParser()
+pages = parser.parse('report.pdf')
+
+# 导出为 Markdown（RAG 友好）
+parser.export_to_markdown(pages, 'output.md')
+
+# 导出为 JSON（带边界框）
+parser.export_to_json(pages, 'output.json')
+
+# 批量处理
+from backend.app.nlp.enhanced_parser import batch_parse
+results = batch_parse(['report1.pdf', 'report2.pdf'], 'output/', max_workers=4)
+```
+
 ---
 
 ## 📊 功能模块
