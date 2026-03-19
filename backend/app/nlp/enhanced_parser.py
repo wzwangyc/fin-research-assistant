@@ -131,9 +131,12 @@ class XYCutSorter:
 class EnhancedPDFParser:
     """增强版 PDF 解析器（整合 OpenDataLoader 功能）"""
     
-    def __init__(self, use_xy_cut: bool = True, use_bbox: bool = True):
+    def __init__(self, use_xy_cut: bool = True, use_bbox: bool = True,
+                 enhance_tables: bool = True, multi_lang_ocr: bool = False):
         self.use_xy_cut = use_xy_cut
         self.use_bbox = use_bbox
+        self.enhance_tables = enhance_tables
+        self.multi_lang_ocr = multi_lang_ocr
         
         # 元素类型分类器
         self.type_keywords = {
@@ -141,6 +144,20 @@ class EnhancedPDFParser:
             'list': ['•', '·', '-', '*', '1.', '2.', '①', '②'],
             'table': [],  # 表格单独处理
         }
+        
+        # 表格增强器
+        if self.enhance_tables:
+            from .table_enhancer import TableEnhancer
+            self.table_enhancer = TableEnhancer()
+        else:
+            self.table_enhancer = None
+        
+        # 多语言 OCR
+        if self.multi_lang_ocr:
+            from .multi_lang_ocr import MultiLangOCR
+            self.ocr = MultiLangOCR()
+        else:
+            self.ocr = None
     
     def parse(self, pdf_path: str) -> List[Page]:
         """解析 PDF，返回带边界框的页面列表"""

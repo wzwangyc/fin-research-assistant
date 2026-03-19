@@ -30,5 +30,9 @@ requests==2.31.0
 pandas==2.2.0
 numpy==1.26.3
 
+# OCR 支持（可选）
+# pytesseract==0.3.10
+# opencv-python==4.9.0
+
 # 测试
 pytest==8.0.0
